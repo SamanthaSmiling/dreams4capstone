@@ -1,134 +1,131 @@
-# Data Processing Pipeline - Dream Study Integration
+# Data Processing Pipeline
 
-## Overview
-
-This pipeline integrates and preprocesses dream report data from two cross-cultural studies: USA and Argentina. The integrated dataset combines dream narratives (Dream Memory) with associated features (demographics, mental health indicators, sleep quality, etc.) for subsequent NLP analysis and statistical modeling.
-
-## Data Sources
+## Input
 
 ### USA Data
 - **Format**: CSV files
-- **Structure**: Each file contains both Features and Dream Memory in a single record
-- **Files**: Initial survey + 4 follow-up surveys (timepoints 0-4)
-- **Language**: English only
+- **Files**: 
+  - `Dream Initial Survey_March 8, 2024_18.39.csv` (timepoint 1)
+  - `Dream Follow Up 1-4_*.csv` (timepoints 2-5)
+- **Content**: Features + Dream Memory
 
 ### Argentina Data
-- **Format**: Excel files (.xlsx)
-- **Structure**: **Split across two sources**:
-  1. **DATA FORM files** (1-5): Contains Features only (no Dream Memory)
-  2. **Dream Reports files**: Contains Dream Memory only (both English and Spanish versions)
-- **Files**: 5 sessions (timepoints 1-5)
-- **Language**: Spanish (DATA FORM) + English/Spanish (Dream Reports)
+- **Features**: `DATA FORM 1-5_4P.xlsx` (timepoints 1-5)
+- **Dream Memory**: `Dream Reports/Session1-5_English/Spanish_Checked.xlsx`
+- **Content**: Separate Features and Dream Memory files
 
-## Processing Pipeline
+## Core Processing Logic
 
-```
-┌─────────────────┐
-│   USA Data      │───┐
-│ (CSV files)     │   │
-│ Features +      │   │
-│ Dream Memory    │   │
-└─────────────────┘   │
-                       │
-┌─────────────────┐   │    ┌──────────────────┐
-│ Argentina DATA  │───┼───▶│   Merge by        │
-│ FORM files      │   │    │ participant_id +  │
-│ (Features only) │   │    │ timepoint         │
-└─────────────────┘   │    └──────────────────┘
-                       │              │
-┌─────────────────┐   │              ▼
-│ Argentina Dream │───┘    ┌──────────────────┐
-│ Reports files   │        │  Integrated Data │
-│ (Dream Memory   │        │  (CSV + JSON)    │
-│  only, EN+ES)   │        └──────────────────┘
-└─────────────────┘
-```
+1. **Load USA data**
+   - Extract demographics from Initial Survey
+   - Load all CSV files
+   - Map fields to unified names
+   - Fill demographics from Initial Survey
 
-## Key Processing Steps
+2. **Load Argentina Features**
+   - Read DATA FORM Excel files
+   - Extract features by pattern matching
+   - Decode numeric codes to natural language
 
-### 1. USA Data Loading (`load_usa_data()`)
-- Reads CSV files, skipping question text rows
-- Extracts both Features and Dream Memory in one pass
-- Maps standardized field names (GAD, PHQ, demographics, sleep, dream-related features)
+3. **Load Argentina Dream Memory**
+   - Read Dream Reports Excel files (English + Spanish)
+   - Extract dream text by session
 
-### 2. Argentina Features Loading (`load_argentina_data_forms()`)
-- Reads DATA FORM Excel files (timepoints 1-5)
-- **Only extracts Features** (no Dream Memory)
-- Handles participant ID column name variations (`codigo`, `Código`, `code`)
-- Maps Spanish question text to standardized field names using pattern matching
+4. **Merge Argentina data**
+   - Join Features + Dream Memory by `participant_id` + `timepoint`
+   - Preserve both English and Spanish versions
 
-### 3. Argentina Dream Memory Loading (`load_argentina_dream_reports()`)
-- Reads Dream Reports Excel files (both English and Spanish versions)
-- **Only extracts Dream Memory** (dream_text field)
-- Preserves both language versions as separate records
-- Cleans dream text (removes meaningless responses, normalizes whitespace)
+5. **Integrate USA + Argentina**
+   - Combine datasets
+   - Align columns
 
-### 4. Argentina Data Merging (`_merge_argentina_features_and_dreams()`)
-- Merges Features (from DATA FORM) with Dream Memory (from Dream Reports)
-- **Matching key**: `participant_id` + `timepoint`
-- **Strategy**: 
-  - Left join on Dream Memory records (preserves all language versions)
-  - Adds Features records without matching Dream Memory (for completeness)
-- Result: Each Dream Memory record (English/Spanish) gets matched Features when available
+6. **Apply mappings**
+   - Argentina: numeric codes → natural language
+   - USA: normalize mixed formats
 
-### 5. Final Integration (`integrate_all_data()`)
-- Combines USA and Argentina datasets
-- Ensures column consistency across both sources
-- Outputs unified dataset ready for analysis
+7. **Clean age fields**
+   - Remove suffixes ("years old", "yo", etc.)
 
-### 6. Preprocessing (`preprocess_data()`)
-- Removes records without dream text (optional, configurable)
-- Cleans participant IDs
-- Normalizes timepoint values
-- Generates summary statistics
-
-## Key Points Addressed
-
-### ✅ **Separation of Concerns**
-- **Problem**: Original code tried to read Dream Memory from DATA FORM files, but Dream Memory should come from Dream Reports files
-- **Solution**: Separated Features loading (DATA FORM) from Dream Memory loading (Dream Reports)
-
-### ✅ **Language Preservation**
-- **Problem**: Need to preserve both English and Spanish versions of Dream Memory from Argentina
-- **Solution**: Load both language versions as separate records, each matched with the same Features
-
-### ✅ **Data Merging Logic**
-- **Problem**: Features and Dream Memory are in separate files for Argentina, need to merge them correctly
-- **Solution**: Implemented merge by `participant_id` + `timepoint` to correctly associate Features with Dream Memory
-
-### ✅ **Participant ID Handling**
-- **Problem**: Different files use different column names for participant ID (`codigo`, `Código`, `code`)
-- **Solution**: Implemented flexible column name detection with case-insensitive matching
-
-### ✅ **Data Completeness**
-- **Problem**: Some participants may have Features but no Dream Memory (or vice versa)
-- **Solution**: Preserve both types of records - Features-only records and Dream Memory-only records are both included
-
-### ✅ **Field Mapping**
-- **Problem**: Argentina DATA FORM files use Spanish question text as column headers
-- **Solution**: Pattern-based field mapping to identify and extract standardized features from Spanish text
+8. **Convert to numeric codes**
+   - Natural language → unified numeric codes
+   - Generate `*_numeric` columns
 
 ## Output
 
-- **CSV file**: `integrated_dream_data.csv` - Complete integrated dataset
-- **JSON file**: `integrated_dream_data.json` - Metadata and summary statistics
+- **`integrated_dream_data.csv`**: Unified dataset
+- **`integrated_dream_data.json`**: Metadata (counts, columns, timestamp)
 
-## Data Statistics (Example Run)
+## Features Mapping
 
-- **Total Features records (Argentina)**: 4,780
-- **Total Dream Memory records (Argentina)**: 9,560 (4,784 English + 4,784 Spanish)
-- **Merged Argentina records**: 9,568
-- **Records with both Features and Dream Memory**: 7,859
-- **USA records**: ~2,000 (varies by timepoint)
+### Dream Features
+| Unified Name | USA Column | Argentina Pattern |
+|-------------|------------|-------------------|
+| `dream_feelings` | `Dream_Feelings` | `sentiste al despertar`, `feeling` |
+| `dream_talk` | `Dream_Talk` | `hablaste sobre tus sueños` |
+| `dream_write` | `Dream_Write` | `escribiste sobre tus sueños` |
+| `dream_content` | `Dream_Content` | `pensamientos diarios se reflejaron` |
+| `dream_frequency` | `DreamQ_Frequency` | `frecuencia tuviste sueños` |
+| `dream_vivid` | `DreamQ_Vivid_1` | `vívidos han sido tus sueños` |
+| `dream_bizarre` | `DreamQ_Bizarre_1` | `bizarros han sido tus sueños` |
+| `dream_emotional_tone` | `More_EmotionalTone_1` | `tono emocional` |
+| `dream_intensity` | `More_DreamIntensity_1` | `intensas.*emociones` |
 
-## Usage
+### Demographics
+| Unified Name | USA Column | Argentina Pattern |
+|-------------|------------|-------------------|
+| `age` | `Demo_Age` | `edad` |
+| `education` | `Demo_Education` | `educativo`, `educación` |
+| `student` | `Demo_Student` | `estudiante` |
+| `gender` | `Demo_Gender` | `género`, `gender` |
 
-```python
-from data_integration_preprocessing import DreamDataIntegrator
+### Sleep
+| Unified Name | USA Column | Argentina Pattern |
+|-------------|------------|-------------------|
+| `sleep_quality` | `Sleep_Quality` | `calidad.*sueño`, `sleepq` |
+| `sleep_hours` | `Sleep_Hours` | `horas.*dormiste`, `hoursofsleep` |
+| `sleep_disturbed` | `Sleep_Disturbed` | `interrumpido.*sueño`, `sleep_interrupted` |
 
-integrator = DreamDataIntegrator()
-integrated_data = integrator.integrate_all_data()
-processed_data = integrator.preprocess_data(integrated_data)
-integrator.save_integrated_data(processed_data)
-```
+### Mental Health
+- **GAD**: Sum of `GAD_Bothered_1-7` (USA) or `GAD score` (Argentina)
+- **PHQ**: Sum of `PHQ_Bothered_1-9` (USA) or `PHQ score` (Argentina)
 
+## Details Handling
+
+### Timepoint Conversion
+- **USA**: `initial` → 1, `follow up 1-4` → 2-5
+- **Argentina**: `session/form 1-5` → 1-5
+
+### Dream Text Cleaning
+- Remove JSON metadata
+- Filter meaningless responses (< 20 chars)
+- Normalize whitespace
+- Minimum length: 20 characters
+
+### Sleep Hours
+- Remove text ("hours", "hrs", etc.)
+- Handle ranges ("7-8" → 7.5)
+- Convert to float
+
+### Age Field
+- Remove suffixes: "years old", "yo", "y.o.", "or more", "or older"
+- Example: "18-24 years old" → "18-24"
+
+### Field Mapping Process
+1. **Argentina**: Numeric code → Natural language (via `mapping_table.csv`)
+2. **USA**: Normalize mixed formats (numeric codes → natural language if needed)
+3. **Unified**: Natural language → Numeric code (generate `*_numeric` columns)
+
+### Mapping Table Structure
+- **Field**: Field name (e.g., `AGE`, `Dream_feeling`)
+- **Argentina_Code**: Numeric code in Argentina data
+- **Natural_Language**: Common natural language representation
+- **Numeric_Code**: Unified numeric code for both countries
+
+### Participant ID Handling
+- **USA**: `PROLIFIC_PID`, `ProlificID`, or `ResponseId`
+- **Argentina**: `codigo`, `Código`, or `code`
+
+### Missing Data
+- Demographics: Fill from Initial Survey (USA only)
+- Features: Set to `None` if not found
+- Dream Memory: Preserve `None` if missing

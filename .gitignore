@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data files (large files - uncomment if you don't want to commit processed data)
+# integrated_dream_data.csv
+# integrated_dream_data.json
+# Argentina/
+# USA/
+# chaos_dataset/
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# Environment variables
+.env
+.env.local
+
+
+

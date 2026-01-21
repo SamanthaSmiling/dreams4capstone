@@ -1,0 +1,244 @@
+Field,Argentina_Code,Natural_Language,Numeric_Code
+AGE,1,18-24 yo,1
+AGE,2,25-34 yo,2
+AGE,3,35-44 yo,3
+AGE,4,45-54 yo,4
+AGE,5,55-64 yo,5
+AGE,6,65-74 yo,6
+AGE,7,75-84 yo,7
+AGE,8,85 yo or more,8
+EDUCATION,1,Less than high school,1
+EDUCATION,2,High school graduate,2
+EDUCATION,3,Some college,3
+EDUCATION,4,4 year degree,4
+EDUCATION,5,Professional degree,5
+EDUCATION,6,Master's degree/Certificate program,6
+EDUCATION,7,Doctorate/PhD,7
+EDUCATION_Student,1,Yes,1
+EDUCATION_Student,2,No,2
+STUDENT,1,Yes,1
+STUDENT,2,No,2
+GENDER,1,Female,1
+GENDER,2,Male o,2
+GENDER,3,Non binary,3
+GENDER,4,I'd rather not say,4
+GAD,0,Never,0
+GAD,1,Several days,1
+GAD,2,More than half days a week,2
+GAD,3,Almost every day,3
+GAD final,0,Not difficult at all,0
+GAD final,1,A bit difficult,1
+GAD final,2,Very difficult,2
+GAD final,3,Extremely difficult,3
+PHQ9,0,Never,0
+PHQ9,1,Several days,1
+PHQ9,2,More than half days a week,2
+PHQ9,3,Almost every day,3
+PHQ9 final,0,Not difficult at all,0
+PHQ9 final,1,A bit difficult,1
+PHQ9 final,2,Very difficult,2
+PHQ9 final,3,Extremely difficult,3
+Alarm,1,Natural,1
+Alarm,2,Alarm,2
+Alarm,3,"Other (pets, babies, noises, nightmares, partner)",3
+Alarm,4,Both,4
+Alarm_freq,0,Never,0
+Alarm_freq,1,Once a week,1
+Alarm_freq,2,2-3 times a week,2
+Alarm_freq,3,4-6 times a week,3
+Alarm_freq,4,Daily,4
+Time_2sleep,1,Less than 30 min,1
+Time_2sleep,2,Between 30 and 60 minutes,2
+Time_2sleep,3,Beween 1 and 2 hours,3
+Time_2sleep,4,More than 2 hours,4
+Freq_meds2sleep,0,Never,0
+Freq_meds2sleep,1,Once a week,1
+Freq_meds2sleep,2,2-3 times a week,2
+Freq_meds2sleep,3,4-6 times a week,3
+Freq_meds2sleep,4,Daily,4
+Sleep_Interrupted,0,Never,0
+Sleep_Interrupted,1,Once a week,1
+Sleep_Interrupted,2,2-3 times a week,2
+Sleep_Interrupted,3,3-4 times a week,3
+Sleep_Interrupted,4,Once per night,4
+Sleep_Interrupted,5,Several times a night,5
+MorningVsEvening,1,Morning,1
+MorningVsEvening,2,Evening,2
+Dream_feeling,0,N/A,0
+Dream_feeling,1,Terrible,1
+Dream_feeling,2,Poor,2
+Dream_feeling,3,Average,3
+Dream_feeling,4,Good,4
+Dream_feeling,5,Excellent,5
+Dream_someone,1,Yes,1
+Dream_someone,2,No,2
+Dream_who,1,"Friends and family (+partner, boy-girlfriend)",1
+Dream_who,2,Housemates,2
+Dream_who,3,Professionals,3
+Dream_who,0,No one,0
+Dream_who,4,"Others (people from work, classmates, posted on social media, teacher)",4
+Dream_write,1,Yes,1
+Dream_write,2,No,2
+Dream_thoughts,1,Yes,1
+Dream_thoughts,2,No,2
+SleepQ,4,Very good,4
+SleepQ,3,Fairly good,3
+SleepQ,2,Farily bad,2
+SleepQ,1,Very bad,1
+DreamQ_Frequency,4,Three times a week or more,4
+DreamQ_Frequency,3,Once or twice a week,3
+DreamQ_Frequency,2,Less than once a week,2
+DreamQ_Frequency,1,I didn't have / I don't remember,1
+More_LucidDream,4,Three times a week or more,4
+More_LucidDream,3,Once or twice a week,3
+More_LucidDream,2,Less than once a week,2
+More_LucidDream,1,I didn't have / I don't remember,1
+DreamQ_Vivid_1,1,Not at all vívid,1
+DreamQ_Vivid_1,2,Not that vívid,2
+DreamQ_Vivid_1,3,Somewhat vívid,3
+DreamQ_Vivid_1,4,Quite vívid,4
+DreamQ_Vivid_1,5,Very vívid,5
+DreamQ_Bizarre_1,1,Not at all bizarre,1
+DreamQ_Bizarre_1,2,Not that bizarre,2
+DreamQ_Bizarre_1,3,Somewhat bizarre,3
+DreamQ_Bizarre_1,4,Quite bizarre,4
+DreamQ_Bizarre_1,5,Very bizarre,5
+DreamQ_Recurring,4,Three or more times a week,4
+DreamQ_Recurring,3,Once or twice a week,3
+DreamQ_Recurring,2,Less than once a week,2
+DreamQ_Recurring,1,I didn't have / don't remember,1
+DreamQ_FeelControl_1,1,Not at all in control,1
+DreamQ_FeelControl_1,2,Not that in control,2
+DreamQ_FeelControl_1,3,Somewhat in control,3
+DreamQ_FeelControl_1,4,Quite in control,4
+DreamQ_FeelControl_1,5,Very in control,5
+DreamQContentControl_1,1,Not at all in control,1
+DreamQContentControl_1,2,not that in control,2
+DreamQContentControl_1,3,Somewhat in control,3
+DreamQContentControl_1,4,Quite in control,4
+DreamQContentControl_1,5,Very in control,5
+DreamQ_ControlFreq_1,1,Not al all controlled,1
+DreamQ_ControlFreq_1,2,Not that controlled,2
+DreamQ_ControlFreq_1,3,Somewhat controlled,3
+DreamQ_ControlFreq_1,4,Quite controlled,4
+DreamQ_ControlFreq_1,5,Very controlled,5
+DreamIntensity_1,1,Not al all intense,1
+DreamIntensity_1,2,Not that intense,2
+DreamIntensity_1,3,Somewhat intense,3
+DreamIntensity_1,4,Quite intense,4
+DreamIntensity_1,5,Very intense,5
+EmotionalTone_1,1,Very negative,1
+EmotionalTone_1,2,Somewhat negative,2
+EmotionalTone_1,3,Neutral,3
+EmotionalTone_1,4,Somewhat positive,4
+EmotionalTone_1,5,Very positive,5
+DreamDistress_1,0,N/A,0
+DreamDistress_1,1,Not at all distressing,1
+DreamDistress_1,2,Not that distressing,2
+DreamDistress_1,3,Somewhat distressing,3
+DreamDistress_1,4,Quite distressing,4
+DreamDistress_1,5,Very distressing,5
+Childhood_1,1,Never,1
+Childhood_1,2,Less than once a year,2
+Childhood_1,3,Once a year,3
+Childhood_1,4,Two to four times a year,4
+Childhood_1,5,Once a month,5
+Childhood_1,6,Two or three times a month,6
+Childhood_1,7,Once a week,7
+Childhood_1,8,Several times a week,8
+BadDreams,4,Three or more times a week,4
+BadDreams,3,Once or twice a week,3
+BadDreams,2,Less than once a week,2
+BadDreams,1,N/A,1
+BadDreamReality,4,Yes,4
+BadDreamReality,3,Sometimes,3
+BadDreamReality,2,No,2
+BadDreamReality,1,N/A,1
+BadDreamRecurr,1,Yes,1
+BadDreamRecurr,2,No,2
+Nightmares,4,Three or more times a week,4
+Nightmares,3,Once or twice a week,3
+Nightmares,2,Less than once a week,2
+Nightmares,1,I didn't have / don't remember,1
+Nightmaredistress,1,N/A,1
+Nightmaredistress,2,Not at all distressing,2
+Nightmaredistress,3,Not that distrssing,3
+Nightmaredistress,4,Somewhat distressing,4
+Nightmaredistress,5,Quite distressing,5
+Nightmaredistress,6,Very distressing,6
+ChildhoodNightmareFreq,1,Never,1
+ChildhoodNightmareFreq,2,Less than once a year,2
+ChildhoodNightmareFreq,3,Once a year,3
+ChildhoodNightmareFreq,4,Two to four times a year,4
+ChildhoodNightmareFreq,5,Once a month,5
+ChildhoodNightmareFreq,6,Two or three times a month,6
+ChildhoodNightmareFreq,7,Once a week,7
+ChildhoodNightmareFreq,8,Several times a week,8
+NightmareReality,3,Yes,3
+NightmareReality,2,Sometimes,2
+NightmareReality,1,No,1
+NightmareReality,0,N/A,0
+Nightmare_Recurr,1,Yes,1
+Nightmare_Recurr,2,No,2
+Dream_themes,1,Flying,1
+Dream_themes,2,Falling,2
+Dream_themes,3,Death/assasination,3
+Dream_themes,4,Natural disasters,4
+Dream_themes,5,UFOs,5
+Dream_themes,6,Eat delicious food,6
+Dream_themes,7,Sex or nudity,7
+Dream_themes,8,Snakes or insects,8
+Dream_themes,9,Magic or myths,9
+Dream_themes,10,Religious entities,10
+Dream_themes,11,Fail in an exam,11
+Dream_themes,12,Being chased,12
+Dream_themes,13,Being frozen in fear,13
+Dream_themes,14,Beasts,14
+Dream_themes,15,Swimming,15
+Dream_themes,16,Nightmares abouth something that ocurred in real life,16
+Dream_themes,17,Visions or events that might occur in the future,17
+Dream_themes,18,Intense colours,18
+Dream_themes,19,Music or intense sounds,19
+Dream_themes,20,Intense positive emotions,20
+Dream_themes,21,Intense negative emotions,21
+Dream_themes,22,Abscense of colours or B&W dreams,22
+Dream_themes,23,Being late,23
+Dream_themes,24,Being a kid again,24
+Dream_themes,25,Interactions with family,25
+Dream_themes,26,Having another visual appearance,26
+Coffee,1,Yes,1
+Coffee,2,No,2
+Coffee_Cups,3,More than 4 cups,3
+Coffee_Cups,2,2-3 cups,2
+Coffee_Cups,1,1 o 2 cups,1
+Coffee_Cups,0,I didn't drinke coffee,0
+Coffe_late,0,I didn't drink coffee,0
+Coffe_late,1,Before 12,1
+Coffe_late,2,From 12 to 13,2
+Coffe_late,3,From 13 to 14,3
+Coffe_late,4,From 14 to 15,4
+Coffe_late,5,After 16,5
+Stimulants,1,Yes,1
+Stimulants,2,No,2
+Alcohol_Freq,0,Never,0
+Alcohol_Freq,1,1-2 times in the past year,1
+Alcohol_Freq,2,3-11 times in the past year,2
+Alcohol_Freq,3,Once a month,3
+Alcohol_Freq,4,2-3 times a month,4
+Alcohol_Freq,5,Once a week,5
+Alcohol_Freq,6,Twice a week,6
+Alcohol_Freq,7,3-4 times a week,7
+Alcohol_Freq,8,5-6 times a week,8
+Alcohol_Amount,3,More than 5 drinks,3
+Alcohol_Amount,2,3-4 drinks,2
+Alcohol_Amount,1,1-2 drinks,1
+Alcohol_Amount,0,I didn't drink alcohol,0
+Smoke,4,Daily,4
+Smoke,3,Less than once a day,3
+Smoke,2,Not at all,2
+Smoke,1,I've never smoked,1
+Living_Situation,1,Alone,1
+Living_Situation,2,With my partner/family,2
+Living_Situation,3,With housemates,3
+Pets,1,Yes,1
+Pets,2,No,2
