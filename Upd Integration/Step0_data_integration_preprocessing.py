@@ -434,28 +434,65 @@ class DreamDataIntegrator:
                 else:
                     unified_df['participant_id'] = None
                 unified_df['dream_text'] = None
-                field_mappings = {
-                    'dream_feelings': ['sentiste al despertar', 'feeling'],
-                    'dream_talk': ['hablaste sobre tus sueños'],
-                    'dream_write': ['escribiste sobre tus sueños'],
-                    'dream_content': ['pensamientos diarios se reflejaron'],
-                    'dream_frequency': ['frecuencia tuviste sueños'],
-                    'dream_vivid': ['vívidos han sido tus sueños'],
-                    'dream_bizarre': ['bizarros han sido tus sueños'],
-                    'dream_emotional_tone': ['tono emocional'],
-                    'dream_intensity': ['intensas.*emociones']
-                }
+                # field_mappings = {
+                #     'dream_feelings': ['sentiste al despertar', 'feeling'],
+                #     'dream_talk': ['hablaste sobre tus sueños'],
+                #     'dream_write': ['escribiste sobre tus sueños'],
+                #     'dream_content': ['pensamientos diarios se reflejaron'],
+                #     'dream_frequency': ['frecuencia tuviste sueños'],
+                #     'dream_vivid': ['vívidos han sido tus sueños'],
+                #     'dream_bizarre': ['bizarros han sido tus sueños', 'dreamq_bizarre'],
+                #     'dream_emotional_tone': ['tono emocional', 'emotionaltone'],
+                #     'dream_intensity': ['intensas.*emociones', 'dreamintensity']
+                # }
                 
+                # for unified_name, patterns in field_mappings.items():
+                #     found = False
+                #     for col in df.columns:
+                #         col_str = str(col).lower()
+                #         if any(pattern.lower() in col_str for pattern in patterns):
+                #             unified_df[unified_name] = self.decode_argentina_field(df[col], unified_name).values
+                #             found = True
+                #             break
+                #     if not found:
+                #         unified_df[unified_name] = None
+
+                field_mappings = {
+                    # feelings already ok, but add short-name too
+                    'dream_feelings': [r"sentiste al despertar", r"dream_feeling"],
+
+                    # TALK in Argentina sheets is usually Dream_someone_* (talked about dreams) + long Spanish text
+                    'dream_talk': [r"hablaste sobre tus sueños", r"dream_someone", r"dream_talk"],
+
+                    # WRITE is Dream_write_*
+                    'dream_write': [r"escribiste sobre tus sueños", r"dream_write"],
+
+                    # CONTENT is Dream_thoughts_* (daily thoughts reflected) or similar
+                    'dream_content': [r"pensamientos diarios se reflejaron", r"dream_thoughts", r"dream_content"],
+
+                    # FREQUENCY is DreamQ_Frequency_*
+                    'dream_frequency': [r"frecuencia.*sueños", r"dreamq_frequency"],
+
+                    # VIVID is DreamQ_Vivid_*
+                    'dream_vivid': [r"vívidos han sido tus sueños", r"dreamq_vivid"],
+
+                    # these you already fixed conceptually, keep short-name support
+                    'dream_bizarre': [r"bizarros han sido tus sueños", r"dreamq_bizarre"],
+                    'dream_emotional_tone': [r"tono emocional", r"emotionaltone"],
+                    'dream_intensity': [r"intensas.*emociones", r"dreamintensity"],
+                }
+
                 for unified_name, patterns in field_mappings.items():
                     found = False
                     for col in df.columns:
-                        col_str = str(col).lower()
-                        if any(pattern.lower() in col_str for pattern in patterns):
-                            unified_df[unified_name] = self.decode_argentina_field(df[col], unified_name).values
+                        col_str = str(col).strip().lower()
+                        if any(re.search(p, col_str, flags=re.IGNORECASE) for p in patterns):
+                            unified_df[unified_name] = self.decode_argentina_field(df[col], unified_name)
                             found = True
                             break
                     if not found:
                         unified_df[unified_name] = None
+
                 # gad_score_col = None
                 # phq_score_col = None
                 # for col in df.columns:
