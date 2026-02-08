@@ -525,25 +525,70 @@ class DreamDataIntegrator:
                     unified_df['phq_total'] = pd.to_numeric(df[phq_score_col], errors='coerce').values
                 else:
                     unified_df['phq_total'] = None
-                demo_mappings = {
-                    'age': ['edad'],
-                    'education': ['educativo', 'educación'],
-                    'student': ['estudiante'],
-                    'gender': ['género', 'gender']
-                }
+                # demo_mappings = {
+                #     'age': ['edad'],
+                #     'education': ['educativo', 'educación'],
+                #     'student': ['estudiante'],
+                #     'gender': ['género', 'gender']
+                # }
                 
+                # for unified_name, patterns in demo_mappings.items():
+                #     found = False
+                #     for col in df.columns:
+                #         col_str = str(col).lower()
+                #         if any(pattern.lower() in col_str for pattern in patterns):
+                #             unified_df[unified_name] = df[col].apply(
+                #                 lambda x: self.decode_argentina_to_natural(x, unified_name)
+                #             ).values
+                #             found = True
+                #             break
+                #     if not found:
+                #         unified_df[unified_name] = None
+
+                demo_mappings = {
+                    'age': [r'edad', r'\bage\b', r'age_'],
+                    'education': [r'educativo', r'educación', r'\beducation\b', r'education_'],
+                    'student': [r'estudiante', r'\bstudent\b', r'student_'],
+                    'gender': [r'género', r'\bgender\b', r'gender_']
+                }
+
                 for unified_name, patterns in demo_mappings.items():
                     found = False
                     for col in df.columns:
-                        col_str = str(col).lower()
-                        if any(pattern.lower() in col_str for pattern in patterns):
-                            unified_df[unified_name] = df[col].apply(
-                                lambda x: self.decode_argentina_to_natural(x, unified_name)
-                            ).values
+                        col_str = str(col).strip().lower()
+
+                        # ✅ ПРАВИЛЬНО: regex search
+                        if any(re.search(p, col_str, flags=re.IGNORECASE) for p in patterns):
+                            series = df[col]
+
+                            # ✅ если значения уже текстовые → просто берём
+                            if (
+                                series.dropna()
+                                .astype(str)
+                                .str.contains(r'[A-Za-z]|-| ', regex=True)
+                                .mean() > 0.5
+                            ):
+                                unified_df[unified_name] = (
+                                    series.astype(str)
+                                    .str.strip()
+                                    .replace('nan', np.nan)
+                                    .values
+                                )
+                            else:
+                                # ✅ иначе — декодируем числовые коды
+                                unified_df[unified_name] = (
+                                    series.apply(
+                                        lambda x: self.decode_argentina_to_natural(x, unified_name)
+                                    ).values
+                                )
+
                             found = True
                             break
+
                     if not found:
                         unified_df[unified_name] = None
+
+
                 sleep_mappings = {
                     'sleep_quality': ['calidad.*sueño', 'sleepq'],
                     'sleep_hours': ['horas.*dormiste', 'hoursofsleep'],
