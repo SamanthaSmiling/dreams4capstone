@@ -726,7 +726,7 @@ class DreamDataIntegrator:
     def save_integrated_data(self, df, output_file=None):
         """Save integrated data"""
         if output_file is None:
-            output_file = self.base_dir / "integrated_dream_data.csv"
+            output_file = self.base_dir / "integrated_dream_data_v0.csv"
         df.to_csv(output_file, index=False, encoding='utf-8')
         json_file = output_file.with_suffix('.json')
         metadata = {
